@@ -1,0 +1,17 @@
+pinecone_index: sage-docs
+
+embedding_provider: openai
+embedding_model: text-embedding-3-small
+llm_model: gpt-4o-mini
+
+# Ingestion
+chunk_strategy: recursive
+chunk_size: 512
+chunk_overlap: 64
+min_words: 20
+allowed_languages: null      # null = keep every detected language
+
+# Retrieval + agent
+retriever_k: 6
+confidence_threshold: 0.7    # min relevance score before the agent re-queries
+max_iterations: 3
