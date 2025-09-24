@@ -45,22 +45,51 @@ pytest tests/
 
 ## Architecture
 
-```
-Ingestion:  crawl_web / load_directory
-    → filter_documents (clean + lang + dedup)
-    → chunk_documents (recursive, overlap)
-    → OpenAI embeddings → Pinecone (vectors + metadata)
+```mermaid
+flowchart TB
+    subgraph ing["Ingestion pipeline (src/ingestion)"]
+        crawl["crawler.py<br/>BFS web crawl or load_directory"]
+        filt["filters.py<br/>whitespace normalisation, boilerplate strip,<br/>min length, language allow-list, exact and near-dup removal"]
+        chunk["chunker.py<br/>recursive or token split with overlap,<br/>per-source chunk_index"]
+        embed["embeddings/embedder.py<br/>OpenAI text-embedding-3-small,<br/>HuggingFace fallback"]
+    end
 
-Query-time (LangGraph agent):
-    START → router  (simple_lookup | multi_hop | metadata_scoped)
-          → retrieve (MMR + metadata filter, scored)
-          → reflect:
-               best_score ≥ threshold  → generate
-               else & iterations < max → rewrite → retrieve   (self-reflection re-query)
-          → generate (grounded answer + inline [n] source attribution) → END
+    pine["vectorstore/pinecone_store.py<br/>vectors plus source, title, file_type metadata"]
 
-Observability:  LangFuse traces every run; scores recall / faithfulness / relevance
+    subgraph agent["LangGraph agent (src/agents/rag_agent.py)"]
+        router["router_node<br/>labels the query simple_lookup,<br/>multi_hop or metadata_scoped"]
+        retr["retrieve_node<br/>retrieve_with_scores, k results,<br/>optional metadata filter"]
+        refl["reflect<br/>best_score vs confidence_threshold,<br/>iterations vs max_iterations"]
+        rew["rewrite_node<br/>LLM reformulates the original query"]
+        genn["generate_node<br/>grounded answer with numbered sources"]
+    end
+
+    subgraph svc["FastAPI (api/main.py)"]
+        q["POST /query"]
+        ingep["POST /ingest<br/>runs the pipeline as a background task"]
+        h["GET /health"]
+    end
+
+    mcp["src/mcp/tools.py<br/>search_docs, filter_by_metadata, get_page<br/>exposed as LangChain tools"]
+    lf["src/evaluation/langfuse_eval.py<br/>traces and scores every run"]
+    cfg["configs/config.yaml"]
+
+    crawl --> filt --> chunk --> embed --> pine
+    ingep --> crawl
+    q --> router --> retr --> refl
+    refl -->|"confident, or iteration budget spent"| genn
+    refl -->|"low score"| rew --> retr
+    retr <--> pine
+    mcp -.-> pine
+    genn --> q
+    cfg -.-> agent
+    cfg -.-> ing
+    agent -.-> lf
 ```
+
+### The self-reflection loop
+
+<img src="docs/reflect-loop.svg" alt="Query routed, retrieved, reflected on, rewritten and retried until the score clears the threshold" width="880">
 
 ## Project Structure
 

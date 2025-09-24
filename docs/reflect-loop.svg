@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" width="880" height="400" font-family="Helvetica, Arial, sans-serif">
+  <title>Sage self-reflection retrieval loop</title>
+  <text x="440" y="26" text-anchor="middle" fill="#8b949e" font-size="16" font-weight="bold">Sage: the agent re-queries itself until the retrieved context is good enough</text>
+  <text x="440" y="46" text-anchor="middle" fill="#8b949e" font-size="12">reflect compares best_score against confidence_threshold and counts iterations</text>
+  <rect x="60" y="150" width="120" height="56" rx="7" fill="#58a6ff" fill-opacity="0.12" stroke="#58a6ff" stroke-width="2"/>
+  <text x="120" y="176" text-anchor="middle" fill="#58a6ff" font-size="13" font-weight="bold">router</text>
+  <text x="120" y="192" text-anchor="middle" fill="#8b949e" font-size="10">simple_lookup / multi_hop / metadata_scoped</text>
+  <rect x="270" y="150" width="140" height="56" rx="7" fill="#58a6ff" fill-opacity="0.12" stroke="#58a6ff" stroke-width="2"/>
+  <text x="340" y="176" text-anchor="middle" fill="#58a6ff" font-size="13" font-weight="bold">retrieve</text>
+  <text x="340" y="192" text-anchor="middle" fill="#8b949e" font-size="10">MMR + metadata filter, scored</text>
+  <rect x="440" y="62" width="140" height="52" rx="7" fill="#a371f7" fill-opacity="0.12" stroke="#a371f7" stroke-width="2"/>
+  <text x="510" y="86" text-anchor="middle" fill="#a371f7" font-size="13" font-weight="bold">rewrite</text>
+  <text x="510" y="102" text-anchor="middle" fill="#8b949e" font-size="10">LLM rewrites the original query</text>
+  <rect x="695" y="150" width="130" height="56" rx="7" fill="#3fb950" fill-opacity="0.12" stroke="#3fb950" stroke-width="2"/>
+  <text x="760" y="176" text-anchor="middle" fill="#3fb950" font-size="13" font-weight="bold">generate</text>
+  <text x="760" y="192" text-anchor="middle" fill="#8b949e" font-size="10">grounded answer with [n] citations</text>
+  <path d="M550 138 L620 178 L550 218 L480 178 Z" fill="#f0883e" fill-opacity="0.12" stroke="#f0883e" stroke-width="2"/>
+  <text x="550" y="176" text-anchor="middle" fill="#f0883e" font-size="13" font-weight="bold">reflect</text>
+  <text x="550" y="192" text-anchor="middle" fill="#8b949e" font-size="10">score &gt;= threshold?</text>
+  <g stroke="#8b949e" stroke-width="1.6" fill="none" opacity="0.75">
+    <path d="M180 178 L268 178"/>
+    <path d="M410 178 L478 178"/>
+    <path d="M620 178 L693 178"/>
+    <path d="M550 138 L550 120 L580 120"/>
+    <path d="M440 88 L360 88 L340 88 L340 148"/>
+  </g>
+  <text x="655" y="170" text-anchor="middle" fill="#3fb950" font-size="10">yes</text>
+  <text x="600" y="112" text-anchor="middle" fill="#a371f7" font-size="10">no, and iterations &lt; max</text>
+  <text x="360" y="80" text-anchor="middle" fill="#a371f7" font-size="10">retry with the new query</text>
+  <circle r="9" fill="#f0883e" fill-opacity="0.85" stroke="#f0883e" stroke-width="2" cx="120" cy="178">
+    <animate attributeName="cx" dur="14.0s" repeatCount="indefinite" values="120;120;340;550;510;340;550;510;340;550;760;760" keyTimes="0.0000;0.0429;0.1143;0.1857;0.2429;0.3143;0.3857;0.4429;0.5143;0.5857;0.6714;1.0000"/>
+    <animate attributeName="cy" dur="14.0s" repeatCount="indefinite" values="178;178;178;178;88;178;178;88;178;178;178;178" keyTimes="0.0000;0.0429;0.1143;0.1857;0.2429;0.3143;0.3857;0.4429;0.5143;0.5857;0.6714;1.0000"/>
+  </circle>
+  <text x="120" y="278" fill="#8b949e" font-size="12" font-weight="bold">best_score of the retrieved context</text>
+  <rect x="120" y="288" width="400" height="16" rx="4" fill="#8b949e" fill-opacity="0.12" stroke="#8b949e" stroke-width="1"/>
+  <rect x="400" y="282" width="2" height="28" fill="#8b949e"/>
+  <text x="404" y="278" fill="#8b949e" font-size="10">threshold 0.70</text>
+  <rect x="120" y="288" width="0" height="16" rx="4" fill="#f0883e" fill-opacity="0.65">
+    <animate attributeName="width" dur="14.0s" repeatCount="indefinite" calcMode="discrete" values="0;164;232;296;296" keyTimes="0;0.1857;0.3857;0.5857;1"/>
+    <animate attributeName="fill" dur="14.0s" repeatCount="indefinite" calcMode="discrete" values="#f0883e;#f0883e;#f0883e;#3fb950;#3fb950" keyTimes="0;0.1857;0.3857;0.5857;1"/>
+  </rect>
+  <text x="540" y="302" text-anchor="start" fill="#8b949e" font-size="13" font-weight="bold" opacity="1">retrieving...
+    <animate attributeName="opacity" dur="14.0s" repeatCount="indefinite" calcMode="discrete" values="1;1;0;0" keyTimes="0;0.1857;0.1897;1"/>
+  </text>
+  <text x="540" y="302" text-anchor="start" fill="#f0883e" font-size="13" font-weight="bold" opacity="0">0.41  below threshold
+    <animate attributeName="opacity" dur="14.0s" repeatCount="indefinite" calcMode="discrete" values="0;0;1;1;0;0" keyTimes="0;0.1857;0.1897;0.3857;0.3897;1"/>
+  </text>
+  <text x="540" y="302" text-anchor="start" fill="#f0883e" font-size="13" font-weight="bold" opacity="0">0.58  still below
+    <animate attributeName="opacity" dur="14.0s" repeatCount="indefinite" calcMode="discrete" values="0;0;1;1;0;0" keyTimes="0;0.3857;0.3897;0.5857;0.5897;1"/>
+  </text>
+  <text x="540" y="302" text-anchor="start" fill="#3fb950" font-size="13" font-weight="bold" opacity="0">0.74  confident
+    <animate attributeName="opacity" dur="14.0s" repeatCount="indefinite" calcMode="discrete" values="0;0;1;1" keyTimes="0;0.5857;0.5897;1"/>
+  </text>
+  <text x="120" y="330" text-anchor="start" fill="#8b949e" font-size="12" font-weight="normal" opacity="1">iterations: 1
+    <animate attributeName="opacity" dur="14.0s" repeatCount="indefinite" calcMode="discrete" values="1;1;0;0" keyTimes="0;0.1857;0.1897;1"/>
+  </text>
+  <text x="120" y="330" text-anchor="start" fill="#8b949e" font-size="12" font-weight="normal" opacity="0">iterations: 1 of max 3
+    <animate attributeName="opacity" dur="14.0s" repeatCount="indefinite" calcMode="discrete" values="0;0;1;1;0;0" keyTimes="0;0.1857;0.1897;0.3857;0.3897;1"/>
+  </text>
+  <text x="120" y="330" text-anchor="start" fill="#8b949e" font-size="12" font-weight="normal" opacity="0">iterations: 2 of max 3
+    <animate attributeName="opacity" dur="14.0s" repeatCount="indefinite" calcMode="discrete" values="0;0;1;1;0;0" keyTimes="0;0.3857;0.3897;0.5857;0.5897;1"/>
+  </text>
+  <text x="120" y="330" text-anchor="start" fill="#8b949e" font-size="12" font-weight="normal" opacity="0">iterations: 3 of max 3
+    <animate attributeName="opacity" dur="14.0s" repeatCount="indefinite" calcMode="discrete" values="0;0;1;1" keyTimes="0;0.5857;0.5897;1"/>
+  </text>
+  <text x="440" y="358" text-anchor="middle" fill="#f0883e" font-size="13" font-weight="bold" opacity="1">router labels the question, then retrieve pulls k scored chunks
+    <animate attributeName="opacity" dur="14.0s" repeatCount="indefinite" calcMode="discrete" values="1;1;0;0" keyTimes="0;0.1857;0.1897;1"/>
+  </text>
+  <text x="440" y="358" text-anchor="middle" fill="#f0883e" font-size="13" font-weight="bold" opacity="0">score under the threshold, so rewrite reformulates the ORIGINAL query
+    <animate attributeName="opacity" dur="14.0s" repeatCount="indefinite" calcMode="discrete" values="0;0;1;1;0;0" keyTimes="0;0.1857;0.1897;0.3857;0.3897;1"/>
+  </text>
+  <text x="440" y="358" text-anchor="middle" fill="#f0883e" font-size="13" font-weight="bold" opacity="0">the rewritten query goes back through retrieve, iterations climbs
+    <animate attributeName="opacity" dur="14.0s" repeatCount="indefinite" calcMode="discrete" values="0;0;1;1;0;0" keyTimes="0;0.3857;0.3897;0.5857;0.5897;1"/>
+  </text>
+  <text x="440" y="358" text-anchor="middle" fill="#3fb950" font-size="13" font-weight="bold" opacity="0">confident context, so generate answers with inline source attribution
+    <animate attributeName="opacity" dur="14.0s" repeatCount="indefinite" calcMode="discrete" values="0;0;1;1" keyTimes="0;0.5857;0.5897;1"/>
+  </text>
+  <text x="440" y="384" text-anchor="middle" fill="#8b949e" font-size="11">reflect also exits to generate when iterations reaches max_iterations, so the loop is always bounded</text>
+</svg>
